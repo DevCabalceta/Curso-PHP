@@ -1,3 +1,29 @@
+<?php
+ require "database.php";
+
+ $error = null;
+
+ if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if (empty($_POST["name"]) || empty($_POST["phone_number"])){
+      $error = "Please fill all the fields.";
+    } else if (strlen($_POST["phone_number"]) < 9) {
+      $error = "Phone number must be at least 9 characters.";
+    } else {
+      $name = $_POST["name"];
+      $phoneNumber = $_POST["phone_number"];
+
+      $statement = $conn->prepare("INSERT INTO contacts (name, phone_number) VALUES (:name, :phone_number)");
+      $statement->bindParam(":name", $_POST["name"]);
+      $statement->bindParam(":phone_number", $_POST["phone_number"]);
+      $statement->execute();
+
+      header("Location: index.php");
+    }
+    
+ } 
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +59,7 @@
                 <a class="nav-link" href="./index.php">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./add.html">Add Contact</a>
+                <a class="nav-link" href="./add.php">Add Contact</a>
               </li>
             </ul>
           </div>
@@ -47,7 +73,12 @@
                 <div class="card">
                   <div class="card-header">Add New Contact</div>
                   <div class="card-body">
-                    <form>
+                    <?php if ($error): ?>
+                      <p class="text-danger text-center">
+                        <?= $error ?>
+                      </p>
+                    <?php endif   ?>
+                    <form method="POST" action="add.php">
                       <div class="mb-3 row">
                         <label for="name" class="col-md-4 col-form-label text-md-end">Name</label>
           
@@ -70,6 +101,7 @@
                         </div>
                       </div>
                     </form>
+
                   </div>
                 </div>
               </div>

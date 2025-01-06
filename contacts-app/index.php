@@ -1,11 +1,9 @@
 <?php
 
-$contacts = [
-  ["name" => "Pepe", "phone_number" => "2132139"],
-  ["name" => "Antonio", "phone_number" => "982392"],
-  ["name" => "Nate", "phone_number" => "534654"],
-  ["name" => "Rodrigo", "phone_number" => "645645"],
-];
+require "database.php";
+
+$contacts = $conn->query("SELECT * FROM contacts");
+
 ?>
 
 
@@ -44,7 +42,7 @@ $contacts = [
                 <a class="nav-link" href="./index.php">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./add.html">Add Contact</a>
+                <a class="nav-link" href="./add.php">Add Contact</a>
               </li>
             </ul>
           </div>
@@ -54,6 +52,15 @@ $contacts = [
     <main>
         <div class="container pt-4 p-3">
           <div class="row">
+  
+          <?php if ($contacts->rowCount() == 0): ?>
+              <div class="col-md-4 mx-auto">
+                <div class="card card-body text-center">
+                  <p>No contacts saved yet</p>
+                  <a href="add.php">Add One!</a>
+                </div>
+              </div>
+            <?php endif ?>
 
             <?php foreach ($contacts as $contact) : ?>
               <div class="col-md-4 mb-3">
@@ -62,7 +69,7 @@ $contacts = [
                     <h3 class="card-title text-capitalize"><?= $contact["name"] ?></h3>
                     <p class="m-2"><?= $contact["phone_number"] ?></p>
                     <a href="#" class="btn btn-secondary mb-2">Edit Contact</a>
-                    <a href="#" class="btn btn-danger mb-2">Delete Contact</a>
+                    <a href="delete.php?id=<?= $contact["id"]?>" class="btn btn-danger mb-2">Delete Contact</a>
                   </div>
                 </div>
               </div>
