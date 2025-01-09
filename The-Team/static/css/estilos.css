@@ -50,41 +50,41 @@ h3{
     background-color: #9b0041 !important;
 }
 
-/* Contenedor con zoom y reflejo */
+
 .img-container {
-    position: relative; /* Necesario para ::after */
+    position: relative; 
     display: inline-block;
-    overflow: hidden; /* Oculta el exceso */
-    transform: scale(var(--escala, 1)); /* Zoom inicial */
-    transition: transform 0.25s ease; /* Suaviza el zoom */
+    overflow: hidden;
+    transform: scale(var(--escala, 1)); 
+    transition: transform 0.25s ease; 
   }
   
   /* Efecto de reflejo */
   .img-container::after {
     content: "";
     position: absolute;
-    top: -150%; /* Fuera del contenedor */
-    left: -150%; /* Comienza fuera del borde */
-    width: 300%; /* Más ancho que el contenedor */
-    height: 300%; /* Asegura que el reflejo cubra */
+    top: -150%; 
+    left: -150%; 
+    width: 300%; 
+    height: 300%; 
     background: linear-gradient(
       120deg,
       rgba(255, 255, 255, 0.4),
       rgba(255, 255, 255, 0) 70%
-    ); /* Gradiente del reflejo */
-    transform: rotate(25deg); /* Ángulo del reflejo */
-    transition: top 0.5s ease, left 0.5s ease; /* Movimiento suave */
-    pointer-events: none; /* Evita interferencias */
-    z-index: 1; /* Asegura que esté sobre la imagen */
+    ); 
+    transform: rotate(25deg); 
+    transition: top 0.5s ease, left 0.5s ease; 
+    pointer-events: none; 
+    z-index: 1; 
   }
   
   /* Zoom y reflejo en hover */
   .img-container:hover {
-    --escala: 1.05; /* Efecto de zoom */
+    --escala: 1.05; 
   }
   
   .img-container:hover::after {
-    top: 50%; /* Reflejo visible */
+    top: 50%; 
     left: 50%;
   }
 

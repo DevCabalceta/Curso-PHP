@@ -3,7 +3,7 @@
 $host = "localhost";
 $database = "contacts_app";
 $user = "root";
-$password = "";
+$password = "alterego2012";
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$database", $user, $password);
