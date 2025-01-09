@@ -2,15 +2,13 @@
 
 $host = "localhost";
 $username = "root";
-$password = "";
-$dbname = "fcbarcelona"; 
+$password = "alterego2012";
+$dbname = "futbol"; 
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    // foreach ($conn->query("SHOW DATABASES") as $row) {
-    //     print_r($row);
-    // }
-    // die();
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 } catch (PDOException $e) {
-    die("PDO Connection Error: " . $e->getMessage());    
+    die("Error de conexión: " . $e->getMessage());    
 }

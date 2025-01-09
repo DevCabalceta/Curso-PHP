@@ -3,15 +3,17 @@
 require "database.php";
 
 try {
-    $query = $conn->query("SELECT * FROM jugadores");
-    $jugadores = $query->fetchAll(PDO::FETCH_ASSOC);
+    // Obtenemos todos los jugadores de la base de datos
+    $query = $conn->query("SELECT * FROM jugadores"); 
+    $jugadores = $query->fetchAll(PDO::FETCH_ASSOC); 
+    
+    // Agrupar jugadores por categoría
+    $categorias = [];
+    foreach ($jugadores as $jugador) {
+        $categorias[$jugador['categoria']][] = $jugador;
+    }
 } catch (PDOException $e) {
     die("Error al obtener los jugadores: " . $e->getMessage());
-}
-
-$categorias = [];
-foreach ($jugadores as $jugador) {
-    $categorias[$jugador['categoria']][] = $jugador;
 }
 
 ?>
@@ -93,17 +95,19 @@ foreach ($jugadores as $jugador) {
         <h2 class="pt-3 pb-5">FC BARCELONA FIRST TEAM</h2>
 
         <?php foreach ($categorias as $categoria => $jugadoresCategoria): ?>
+            <!-- Mostrar el encabezado para cada categoría -->
             <h3 id="<?= htmlspecialchars($categoria) ?>" class="text-light text-center pt-3 mt-5"><?= htmlspecialchars(strtoupper($categoria)) ?></h3>
+
             <div class="d-flex flex-wrap flex-row justify-content-evenly mt-3">
                 <?php foreach ($jugadoresCategoria as $jugador): ?>
                     <div class="d-flex mb-3">
                         <div class="border border-white img-container">
                             <img class="img-fluid rounded border" 
-                                src="<?= htmlspecialchars($jugador['imagen']) ?>" 
-                                data-bs-toggle="modal" 
-                                data-bs-target="#modal-<?= $jugador['id'] ?>" 
-                                width="400px" 
-                                id="efecto">
+                                 src="<?= htmlspecialchars($jugador['imagen']) ?>" 
+                                 data-bs-toggle="modal" 
+                                 data-bs-target="#modal-<?= $jugador['id'] ?>" 
+                                 width="400px" 
+                                 id="efecto">
                             <p class="Njugador">
                                 <?= htmlspecialchars($jugador['nombre']) ?>
                                 <?php if ($jugador['nuevo']): ?>
@@ -135,7 +139,6 @@ foreach ($jugadores as $jugador) {
                             </div>
                         </div>
                     </div>
-
                 <?php endforeach; ?>
             </div>
         <?php endforeach; ?>
